@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1077533304360",
+    "project_id": "cazuelaapp",
+    "storage_bucket": "cazuelaapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077533304360:android:b7b6e13a7c44d034e1371d",
+        "android_client_info": {
+          "package_name": "com.app.cazuela_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjnY1Dz7cTiHe5TzAVHG6zg7Q1kVRVHts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
