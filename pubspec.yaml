@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  speech_to_text: ^7.2.0
+  # TODO: Re-enable speech_to_text once a Windows-compatible version is available
   flutter:
     sdk: flutter
 

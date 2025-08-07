@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../models/chat_message.dart';
 import '../services/chat_service.dart';
@@ -16,22 +15,18 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<ChatMessage> _messages = [];
   bool _loading = false;
-  
-  // Variables para reconocimiento de voz
-  late stt.SpeechToText _speech;
-  bool _isListening = false;
-  String _lastWords = '';
+
+  // TODO: Add speech recognition state when speech_to_text is re-enabled
 
   @override
   void initState() {
     super.initState();
-    _speech = stt.SpeechToText();
-    
     // Mensaje inicial del asistente
     _messages.add(
       ChatMessage(
         role: ChatRole.assistant,
-        content: "¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?\n\n"
+        content:
+            "¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?\n\n"
             "- Puedes preguntarme sobre:\n"
             "  Ver tipos de tamales\n\n"
             "- ¿Cuál es el combo más vendido?\n"
@@ -42,55 +37,25 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _startListening() async {
-    if (!_isListening) {
-      bool available = await _speech.initialize(
-        onStatus: (status) {
-          if (status == 'done') {
-            _stopListening();
-          }
-        },
-        onError: (error) => print('Error: $error'),
-      );
-      if (available) {
-        setState(() => _isListening = true);
-        _speech.listen(
-          onResult: (result) => setState(() {
-            _lastWords = result.recognizedWords;
-            if (result.finalResult) {
-              _controller.text = _lastWords;
-              _stopListening();
-            }
-          }),
-        );
-      }
-    } else {
-      _stopListening();
-    }
-  }
-
-  void _stopListening() {
-    if (_isListening) {
-      _speech.stop();
-      setState(() => _isListening = false);
-      if (_lastWords.isNotEmpty) {
-        _controller.text = _lastWords;
-      }
-    }
+  void _notifyVoiceDisabled() {
+    // TODO: Implement speech-to-text when a compatible plugin version is available.
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Funcionalidad de voz desactivada')),
+    );
   }
 
   Future<void> _sendMessage() async {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
-    
+
     setState(() {
       _messages.add(ChatMessage(role: ChatRole.user, content: text));
       _loading = true;
     });
-    
+
     _controller.clear();
     final reply = await _service.sendMessage(text);
-    
+
     if (!mounted) return;
     setState(() {
       _loading = false;
@@ -103,7 +68,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     _controller.dispose();
-    _speech.stop();
     super.dispose();
   }
 
@@ -118,7 +82,10 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Asistente Virtual', style: TextStyle(color: Colors.white)),
+            const Text(
+              'Asistente Virtual',
+              style: TextStyle(color: Colors.white),
+            ),
             Text(
               'En línea',
               style: TextStyle(
@@ -146,10 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
             color: Colors.grey.shade100,
             child: Text(
               '5:17 PM',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
             ),
           ),
           Expanded(
@@ -182,8 +146,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(20),
                         topRight: const Radius.circular(20),
-                        bottomLeft: isUser ? const Radius.circular(20) : Radius.zero,
-                        bottomRight: isUser ? Radius.zero : const Radius.circular(20),
+                        bottomLeft: isUser
+                            ? const Radius.circular(20)
+                            : Radius.zero,
+                        bottomRight: isUser
+                            ? Radius.zero
+                            : const Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -211,21 +179,15 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.all(8),
               child: Row(
                 children: [
+                  // TODO: Restore voice input button when speech_to_text is available
                   Container(
-                    decoration: BoxDecoration(
-                      color: _isListening ? Colors.red : Colors.blue,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
                       shape: BoxShape.circle,
-                      border: Border.all( 
-                        color: Colors.black,
-                        width: 1,
-                      ),
                     ),
                     child: IconButton(
-                      icon: Icon(
-                        _isListening ? Icons.mic_off : Icons.mic,
-                        color: Colors.white,
-                      ),
-                      onPressed: _startListening,
+                      icon: const Icon(Icons.mic_off, color: Colors.white),
+                      onPressed: _notifyVoiceDisabled,
                     ),
                   ),
                   const SizedBox(width: 8),

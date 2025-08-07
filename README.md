@@ -1,16 +1,53 @@
-# cazuela_app
+# 📱 CazuelaApp
 
-A new Flutter project.
+Aplicación Flutter desarrollada como parte de una prueba técnica para la posición de Programador IA.
 
-## Getting Started
+## 🚀 Funcionalidades principales
 
-This project is a starting point for a Flutter application.
+- Listado de productos
+- Agregado y eliminación del carrito
+- Visualización de detalles
+- Sistema de recomendación básico
+- Interfaz moderna y responsive
 
-A few resources to get you started if this is your first Flutter project:
+## 🧠 Reconocimiento por voz
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> ❗ Actualmente desactivado por incompatibilidad con sistemas Windows.
+> El paquete `speech_to_text` fue removido temporalmente. Se planea reincorporarlo en versiones futuras.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🔔 Notificaciones
+
+La app incluye integración con:
+- `firebase_messaging` para notificaciones push
+- `flutter_local_notifications` para gestión local
+
+## 📁 Estructura del proyecto
+
+- `/lib`: lógica principal y UI
+- `/lib/screens`: pantallas como `Home`, `Details`, `Cart`, etc.
+- `/lib/widgets`: componentes reutilizables
+- `/lib/services`: comunicación con APIs o lógica auxiliar
+
+## ⚙️ Instalación y ejecución
+
+```bash
+flutter pub get
+flutter run
+```
+
+### ⚠️ Requisitos
+- Flutter 3.10+
+- Android SDK 30+
+- Dispositivo o emulador Android
+
+## 🛠️ Desarrollo y mantenimiento
+Para más detalles técnicos revisa: [Frontend-technical-documentation.md](Frontend-technical-documentation.md)
+
+## 👨‍💻 Autor
+Selvin Santiago Pu Chiguil  
+Full‑stack Web Developer based in Guatemala  
+📩 selvin.san90@gmail.com
+
+## 📄 Licencia
+MIT License
+
